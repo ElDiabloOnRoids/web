@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<!--
+  PORTOFOLIO ARKA ARTHAND SYACH — PANDUAN EDIT CEPAT
+  =====================================================
+  File ini dipecah jadi 3: index.html (struktur), style.css (tampilan),
+  script.js (interaksi). Ketiganya wajib berada dalam satu folder yang sama.
+
+  YANG PALING SERING DIEDIT:
+  - Teks: cari komentar <!-- EDIT TEXT DI SINI --> / <!-- GANTI ... -->
+  - Gambar: taruh file di folder images/ dengan NAMA PERSIS seperti pada
+    atribut data-label tiap elemen (mis. data-label="hero-background.jpg"
+    -> simpan sebagai images/hero-background.jpg). Selama file belum ada,
+    kotak abu-abu gradient akan tampil sebagai placeholder otomatis.
+  - Warna: semua warna diatur lewat variabel di :root pada style.css
+    (--navy, --accent, dst) — ubah di satu tempat, berubah di semua section.
+  - Riwayat Achievements & Connections: ada di script.js, cari komentar
+    "EDIT ... DI SINI" pada array achHistory / connHistory.
+  - Video YouTube & nomor WhatsApp: cari komentar GANTI di section Media
+    dan Footer pada index.html.
+-->
+
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- SECURITY: batasi sumber resource & kebocoran referrer. Header
+     X-Content-Type-Options / X-Frame-Options tidak bisa diatur lewat meta —
+     atur di konfigurasi server/hosting (mis. Netlify _headers, .htaccess). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; frame-ancestors 'none'; base-uri 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Arka Arthand Syach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header id="siteHeader">
+  <div class="nav-bar">
+    <button class="menu-btn" id="menuOpen" aria-label="Buka menu"><span></span></button>
+    <div class="brand">ARKA ARTHAND SYACH<small>SMKS BINONG PERMAI</small></div>
+    <div class="profile-dot">AS</div>
+  </div>
+</header>
+
+<!-- ===================== FULLSCREEN NAV ===================== -->
+<div class="overlay" id="navOverlay">
+  <div class="overlay-top"><button class="close-btn" id="menuClose">CLOSE ✕</button></div>
+  <nav>
+    <a href="#hero">HOME</a>
+    <a href="#about">ABOUT ME<small>Profil singkat</small></a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#media">MEDIA</a>
+    <a href="#achievements">ACHIEVEMENTS</a>
+    <a href="#connections">CONNECTIONS</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="hero">
+  <!-- GANTI GAMBAR HERO DI SINI: taruh file images/hero-background.jpg -->
+  <div class="ph hero-bg" data-label="hero-background.jpg"><img src="images/hero-background.jpg" alt="hero-background.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <!-- EDIT TEXT DI SINI -->
+      <h1>ARKA<br>ARTHAND<br>SYACH</h1>
+    </div>
+    <div class="hero-sub">
+      <div class="hero-meta">
+        <span>XII TJKT 1</span><span>SMKS BINONG PERMAI</span><span>RANK 1</span>
+      </div>
+      <!-- EDIT TEXT DI SINI -->
+      <p>Siswa, penggemar teknologi, dan pembelajar kreatif yang fokus pada networking, pengembangan web, dan proyek digital.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section-off" id="about">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <div class="eyebrow">Profil</div>
+      <h2 style="margin-bottom:20px">ABOUT ME</h2>
+      <div class="about-lead"><p>Fokus pada jaringan, pengembangan web, dan perangkat keras komputer — dengan pencapaian Rank 1 di kelas.</p></div>
+      <div class="focus-list">
+        <span>Networking</span><span>Web Development</span><span>Computer Hardware</span><span>MikroTik</span><span>Creative Digital Projects</span>
+      </div>
+    </div>
+    <div class="reveal">
+      <dl class="about-facts">
+        <div><dt>NAMA</dt><dd>Arka Arthand Syach</dd></div>
+        <div><dt>SEKOLAH</dt><dd>SMKS Binong Permai</dd></div>
+        <div><dt>KELAS</dt><dd>XII TJKT 1</dd></div>
+        <div><dt>ACHIEVEMENT</dt><dd>Rank 1 di kelas</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CAROUSEL ===================== -->
+<section id="carousel-section">
+  <div class="wrap">
+    <div class="carousel-head reveal">
+      <h2 style="margin-bottom:0">HIGHLIGHTS</h2>
+      <div class="carousel-nav">
+        <button id="carPrev" aria-label="Sebelumnya">←</button>
+        <button id="carNext" aria-label="Berikutnya">→</button>
+      </div>
+    </div>
+    <div class="carousel" id="carousel">
+      <!-- GANTI GAMBAR CARD DI SINI -->
+      <article class="card" data-detail="achievements"><div class="ph" data-label="achievement.jpg"><img src="images/achievement.jpg" alt="achievement.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="card-body"><div class="card-tag">01</div><div class="card-title">Achievements</div><p class="card-desc">Rank 1 di kelas XII TJKT 1.</p><div class="card-view">VIEW →</div></div></article>
+      <article class="card" data-detail="connections"><div class="ph" data-label="connections.jpg"><img src="images/connections.jpg" alt="connections.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="card-body"><div class="card-tag">02</div><div class="card-title">Connections</div><p class="card-desc">Sekolah, kelas, dan relasi profesional.</p><div class="card-view">VIEW →</div></div></article>
+      <article class="card" data-detail="suggestions"><div class="ph" data-label="suggestions.jpg"><img src="images/suggestions.jpg" alt="suggestions.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="card-body"><div class="card-tag">03</div><div class="card-title">Suggestions</div><p class="card-desc">Rekomendasi dan target ke depan.</p><div class="card-view">VIEW →</div></div></article>
+      <article class="card" data-detail="trophies"><div class="ph" data-label="trophies.jpg"><img src="images/trophies.jpg" alt="trophies.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="card-body"><div class="card-tag">04</div><div class="card-title">Trophies</div><p class="card-desc">Sertifikat dan penghargaan.</p><div class="card-view">VIEW →</div></div></article>
+      <article class="card" data-detail="projects"><div class="ph" data-label="project-1.jpg"><img src="images/project-1.jpg" alt="project-1.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="card-body"><div class="card-tag">05</div><div class="card-title">Projects</div><p class="card-desc">Proyek networking dan web.</p><div class="card-view">VIEW →</div></div></article>
+      <article class="card" data-detail="skills"><div class="ph" data-label="skills.jpg"><img src="images/skills.jpg" alt="skills.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="card-body"><div class="card-tag">06</div><div class="card-title">Skills</div><p class="card-desc">HTML, CSS, JavaScript, MikroTik.</p><div class="card-view">VIEW →</div></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section class="section-navy" id="projects">
+  <div class="wrap">
+    <div class="eyebrow reveal">Karya</div>
+    <h2 class="reveal">PROJECTS</h2>
+    <div class="proj-grid">
+      <!-- GANTI GAMBAR PROJECT DI SINI -->
+      <article class="proj-item reveal" data-project="mikrotik"><div class="ph" data-label="project-1.jpg"><img src="images/project-1.jpg" alt="project-1.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="proj-text"><div class="proj-cat">Networking — 2026</div><h3>MikroTik Configuration</h3><p>Konfigurasi jaringan dan routing menggunakan MikroTik untuk kebutuhan lab sekolah.</p><button class="proj-link" type="button">VIEW PROJECT <span class="arrow">→</span></button></div></article>
+      <article class="proj-item reveal" data-project="website"><div class="ph" data-label="project-2.jpg"><img src="images/project-2.jpg" alt="project-2.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="proj-text"><div class="proj-cat">Web Development — 2026</div><h3>Website Project</h3><p>Membangun website responsif dengan HTML, CSS, dan JavaScript.</p><button class="proj-link" type="button">VIEW PROJECT <span class="arrow">→</span></button></div></article>
+      <article class="proj-item reveal" data-project="arduino"><div class="ph" data-label="project-3.jpg"><img src="images/project-3.jpg" alt="project-3.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="proj-text"><div class="proj-cat">Hardware — 2026</div><h3>Arduino Ultrasonic Sensor</h3><p>Proyek sensor jarak berbasis Arduino untuk deteksi objek.</p><button class="proj-link" type="button">VIEW PROJECT <span class="arrow">→</span></button></div></article>
+      <article class="proj-item reveal" data-project="editing"><div class="ph" data-label="project-4.jpg"><img src="images/project-4.jpg" alt="project-4.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div><div class="proj-text"><div class="proj-cat">Creative — 2026</div><h3>Creative Editing Project</h3><p>Proyek editing video dan konten kreatif digital.</p><button class="proj-link" type="button">VIEW PROJECT <span class="arrow">→</span></button></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow reveal">Kemampuan</div>
+    <h2 class="reveal">SKILLS</h2>
+    <div class="reveal">
+      <div class="skill-row" data-skill="web"><div class="skill-num">01</div><div><h3>WEB DEVELOPMENT</h3><p>HTML / CSS / JavaScript</p></div></div>
+      <div class="skill-row" data-skill="networking"><div class="skill-num">02</div><div><h3>NETWORKING</h3><p>MikroTik / Network Configuration</p></div></div>
+      <div class="skill-row" data-skill="hardware"><div class="skill-num">03</div><div><h3>HARDWARE</h3><p>PC Hardware / Troubleshooting</p></div></div>
+      <div class="skill-row" data-skill="creative"><div class="skill-num">04</div><div><h3>CREATIVE</h3><p>Video Editing / After Effects</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MEDIA / YOUTUBE ===================== -->
+<section class="section-off" id="media">
+  <div class="wrap">
+    <div class="eyebrow reveal">Konten</div>
+    <h2 class="reveal">MEDIA</h2>
+    <div class="media-channel reveal">
+      <div class="media-head">
+        <!-- GANTI FOTO PROFIL CHANNEL DI SINI: images/pfp-arka.jpg -->
+        <div class="ph media-pfp" data-label="pfp-arka.jpg"><img src="images/pfp-arka.jpg" alt="pfp-arka.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+        <div>
+          <div class="media-channel-name">Arka BP Pengemudi</div>
+          <!-- EDIT JUMLAH SUBSCRIBER DI SINI -->
+          <div class="media-channel-handle">@CHANNELARKA67 · <!-- GANTI JUMLAH SUBSCRIBER --> 70 subscriber</div>
+        </div>
+      </div>
+      <a class="rb-cta" href="https://www.youtube.com/@CHANNELARKA67/featured" target="_blank" rel="noopener noreferrer">Kunjungi Channel</a>
+    </div>
+    <!-- GANTI THUMBNAIL, JUDUL, TANGGAL, VIEWS & LINK VIDEO DI SINI -->
+    <div class="media-grid reveal">
+      <a class="media-card" href="javascript:void(0)" data-video="1"><!-- GANTI LINK VIDEO (href) DI SINI -->
+        <div class="ph media-thumb" data-label="thumbnail-1.jpg"><img src="images/thumbnail-1.jpg" alt="thumbnail-1.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+        <div class="media-body">
+          <div class="media-tag">Video Terbaru</div>
+          <div class="media-title"><!-- GANTI JUDUL VIDEO -->Cara konfigurasi PBX Admin, Mizu VOIP, 3CX Phone dan SIP Phone dan PortSIP</div>
+          <div class="media-meta"><span><!-- GANTI TANGGAL -->1 bulan lalu</span><span><!-- GANTI VIEWS --> 58 ditonton</span></div>
+        </div>
+      </a>
+      <a class="media-card" href="javascript:void(0)" data-video="2"><!-- GANTI LINK VIDEO (href) DI SINI -->
+        <div class="ph media-thumb" data-label="thumbnail-2.jpg"><img src="images/thumbnail-2.jpg" alt="thumbnail-2.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+        <div class="media-body">
+          <div class="media-tag">Video</div>
+          <div class="media-title"><!-- GANTI JUDUL VIDEO -->PKN 1</div>
+          <div class="media-meta"><span><!-- GANTI TANGGAL -->1 bulan lalu</span><span><!-- GANTI VIEWS --> 16 ditonton</span></div>
+        </div>
+      </a>
+      <a class="media-card" href="javascript:void(0)" data-video="3"><!-- GANTI LINK VIDEO (href) DI SINI -->
+        <div class="ph media-thumb" data-label="thumbnail-3.jpg"><img src="images/thumbnail-3.jpg" alt="thumbnail-3.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+        <div class="media-body">
+          <div class="media-tag">Video</div>
+          <div class="media-title"><!-- GANTI JUDUL VIDEO -->Toturial membuat Debian terkoneksi ke PuTty</div>
+          <div class="media-meta"><span><!-- GANTI TANGGAL -->7 bulan lalu</span><span><!-- GANTI VIEWS --> 16 ditonton</span></div>
+        </div>
+      </a>
+    </div>
+    <div class="media-second reveal">
+      <!-- GANTI GAMBAR CHANNEL DI SINI -->
+      <div class="ph media-thumb-sq" data-label="pfp-ano.jpg"><img src="images/pfp-ano.jpg" alt="pfp-ano.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+      <div>
+        <div class="media-channel-name">anomalitoetttoett</div>
+        <div class="media-channel-handle">@ano.cc21 · 52 subcriber</div>
+        <p class="media-desc">I'm a Capcut and Alight Motion editor, I don't steal edits unlike many other mobile editors, all are made within the apps I use..</p>
+        <a class="proj-link" href="https://www.youtube.com/@ano.cc21/shorts" target="_blank" rel="noopener noreferrer">OPEN THE CHANNEL <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ACHIEVEMENTS ===================== -->
+<section class="section-navy" id="achievements">
+  <div class="wrap">
+    <div class="eyebrow reveal">Pencapaian</div>
+    <h2 class="reveal">ACHIEVEMENTS</h2>
+    <div class="ach-rb-wrap">
+      <div class="ach-rb-main reveal">
+        <button class="rb-nav-btn" id="achUp" aria-label="Sebelumnya">&#8593;</button>
+        <div class="rb-type">
+          <span class="rb-word">RANK</span><span class="rb-num" id="achBigNum">1</span>
+        </div>
+        <div class="rb-trophy" id="achTrophySvg" style="--t1:#fff6d8;--t2:#f0c04a;--t3:#8a5b12;--d1:#c9922c;--d2:#6b430c">
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="trophyBowl" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" style="stop-color:var(--t1)"/>
+                <stop offset="50%" style="stop-color:var(--t2)"/>
+                <stop offset="100%" style="stop-color:var(--t3)"/>
+              </linearGradient>
+              <linearGradient id="trophyDark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" style="stop-color:var(--d1)"/>
+                <stop offset="100%" style="stop-color:var(--d2)"/>
+              </linearGradient>
+            </defs>
+            <path d="M90 30h120v34c0 56-30 92-60 92s-60-36-60-92Z" fill="url(#trophyBowl)"/>
+            <path d="M90 52c-42-2-46 66 8 76" stroke="url(#trophyDark)" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <path d="M210 52c42-2 46 66-8 76" stroke="url(#trophyDark)" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <rect x="138" y="154" width="24" height="54" fill="url(#trophyDark)"/>
+            <path d="M108 208h84l12 28H96Z" fill="url(#trophyBowl)"/>
+            <rect x="90" y="238" width="120" height="16" rx="4" fill="url(#trophyDark)"/>
+            <rect x="78" y="256" width="144" height="14" rx="4" fill="url(#trophyBowl)"/>
+          </svg>
+        </div>
+        <div class="ach-rb-caption" id="achCaption">XII TJKT 1 · SMKS Binong Permai</div>
+        <button class="rb-nav-btn" id="achDown" aria-label="Berikutnya">&#8595;</button>
+      </div>
+      <div class="rb-panel reveal">
+        <div class="eyebrow">Periode</div>
+        <div class="rb-panel-title" id="panelTitle">XII TJKT 1<br>SMKS Binong Permai</div>
+        <div class="rb-stats">
+          <div><span class="rb-stat-label">Peringkat</span><span class="rb-stat-value" id="panelRank">1</span></div>
+          <div><span class="rb-stat-label">Total Riwayat</span><span class="rb-stat-value" id="panelTotal">14</span></div>
+        </div>
+        <button class="rb-cta" id="achMoreBtn">More Details</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONNECTIONS + TROPHIES ===================== -->
+<section class="section-off" id="connections">
+  <div class="wrap">
+    <div class="eyebrow reveal">Relasi</div>
+    <h2 class="reveal">CONNECTIONS</h2>
+    <div class="conn-hero reveal" id="connHero">
+      <h3 id="connTitle">SMKS Binong Permai</h3>
+      <span id="connSub">Kelas X – XII</span>
+      <dl class="conn-details" id="connDetails"></dl>
+    </div>
+    <div class="conn-pager reveal">
+      <button id="connPrev" aria-label="Sebelumnya">&lt;</button>
+      <span class="conn-count" id="connCount">01 / 03</span>
+      <button id="connNext" aria-label="Berikutnya">&gt;</button>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:70px" id="trophies">
+    <div class="eyebrow reveal">Penghargaan</div>
+    <h2 class="reveal">TROPHIES</h2>
+    <div class="trophy-grid reveal">
+      <!-- GANTI DENGAN SERTIFIKAT / PENCAPAIAN -->
+      <div class="ph light" data-label="sertifikat-1"><img src="images/sertifikat-1.jpg" alt="sertifikat-1" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+      <div class="ph light" data-label="sertifikat-2"><img src="images/sertifikat-2.jpg" alt="sertifikat-2" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+      <div class="ph light" data-label="sertifikat-3"><img src="images/sertifikat-3.jpg" alt="sertifikat-3" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+      <div class="ph light" data-label="sertifikat-4"><img src="images/sertifikat-4.jpg" alt="sertifikat-4" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="section-navy" id="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal">Hubungi</div>
+    <h2 class="reveal">CONTACT</h2>
+    <div class="reveal">
+      <h3 style="font-family:var(--font-d); font-weight:800; font-size:1.6rem; margin-bottom:6px;">Arka Arthand Syach</h3>
+      <p style="color:rgba(255,255,255,.6)">SMKS Binong Permai — XII TJKT 1</p>
+      <div class="contact-links">
+        <!-- GANTI LINK INSTAGRAM DI SINI --><a href="#">Instagram</a>
+        <!-- GANTI LINK GITHUB DI SINI --><a href="#">GitHub</a>
+        <!-- GANTI LINK EMAIL DI SINI --><a href="#">Email</a>
+        <!-- GANTI LINK WHATSAPP DI SINI --><a href="#">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <!-- GANTI FOTO DI SINI: images/footer-photo.jpg -->
+        <div class="ph footer-photo" data-label="footer-photo.jpg"><img src="images/footer-photo.jpg" alt="footer-photo.jpg" loading="lazy" onload="this.parentElement.classList.add('has-img')" onerror="this.remove()"></div>
+      </div>
+      <div>
+        <div class="footer-brand">Arka Arthand Syach</div>
+        <p style="max-width:420px; line-height:1.6;">XII TJKT 1, SMKS Binong Permai. Terbuka untuk kolaborasi proyek jaringan, web development, maupun editing kreatif.</p>
+        <div class="footer-wa">
+          <!-- GANTI NOMOR WA BISNIS DI SINI -->
+          <a href="https://wa.me/6281280458402" target="_blank" rel="noopener noreferrer">WA Bisnis — 0812-8045-8402</a>
+          <!-- GANTI NOMOR WA PRIBADI DI SINI -->
+          <a href="https://wa.me/6285119105268" target="_blank" rel="noopener noreferrer">WA Pribadi — 0851-1910-5268</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>ARKA ARTHAND SYACH — XII TJKT 1, SMKS Binong Permai</span>
+      <span>© 2026 Arka Arthand Syach</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== DETAIL OVERLAY ===================== -->
+<button class="detail-close" id="detailClose" style="display:none;">CLOSE ✕</button>
+<div class="detail" id="detailView">
+  <div class="detail-inner" id="detailInner"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
