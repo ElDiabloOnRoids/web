@@ -45,10 +45,28 @@ let achIndex=0;
 const achBigNum=document.getElementById('achBigNum');
 const achCaption=document.getElementById('achCaption');
 const achTrophySvg=document.getElementById('achTrophySvg');
+const achTrophyStage=document.getElementById('achTrophyStage');
 const panelTitle=document.getElementById('panelTitle');
 const panelRank=document.getElementById('panelRank');
 const panelTotal=document.getElementById('panelTotal');
 if(panelTotal) panelTotal.textContent=achHistory.length;
+
+// JOURNEY TIMELINE — dots dirender otomatis dari achHistory, klik buat loncat ke periode itu
+const journeyTrack=document.getElementById('journeyTrack');
+function renderJourneyTrack(){
+  if(!journeyTrack) return;
+  journeyTrack.innerHTML=achHistory.map((d,i)=>
+    `<button class="journey-dot${i===achIndex?' active':''}" data-i="${i}" style="--jt:${tierGrad[d.tier].t2}" aria-label="${d.period}, ${d.school}"><span class="journey-dot-tip">${d.period}</span></button>`
+  ).join('');
+  journeyTrack.querySelectorAll('.journey-dot').forEach(btn=>{
+    btn.addEventListener('click',()=>{ achIndex=parseInt(btn.dataset.i,10); renderAch(); });
+  });
+}
+function updateJourneyActive(){
+  if(!journeyTrack) return;
+  journeyTrack.querySelectorAll('.journey-dot').forEach((btn,i)=>btn.classList.toggle('active', i===achIndex));
+}
+
 function renderAch(){
   const d=achHistory[achIndex]; const g=tierGrad[d.tier];
   [achBigNum,achCaption,achTrophySvg,panelTitle,panelRank].forEach(el=>el.classList.add('rb-fade'));
@@ -57,12 +75,14 @@ function renderAch(){
     achCaption.textContent=`${d.period} · ${d.school}`;
     panelTitle.innerHTML=`${d.period}<br>${d.school}`;
     panelRank.textContent=d.rank;
-    Object.entries(g).forEach(([k,v])=>achTrophySvg.style.setProperty('--'+k,v));
+    Object.entries(g).forEach(([k,v])=>achTrophyStage.style.setProperty('--'+k,v));
     [achBigNum,achCaption,achTrophySvg,panelTitle,panelRank].forEach(el=>el.classList.remove('rb-fade'));
+    updateJourneyActive();
   },160);
 }
 document.getElementById('achUp').addEventListener('click',()=>{ achIndex=(achIndex-1+achHistory.length)%achHistory.length; renderAch(); });
 document.getElementById('achDown').addEventListener('click',()=>{ achIndex=(achIndex+1)%achHistory.length; renderAch(); });
+renderJourneyTrack();
 // =====================================
 // PROJECTS — RICH DETAIL POPUP (EDIT KONTEN PROYEK DI SINI)
 // =====================================
@@ -78,7 +98,15 @@ const projectDetail={
     tags:["Arduino","Sensor","C++"]},
   editing:{tag:"Creative — 2026", title:"Creative Editing Project", img:"project-4.jpg",
     body:"Proyek editing video kreatif menggunakan Premiere Pro, After Effects, dan Alight Motion — mulai dari cutting, color grading, sampai motion graphics sederhana.",
-    tags:["Premiere Pro","After Effects","Alight Motion"]}
+    tags:["Premiere Pro","After Effects","Alight Motion"]},
+  // SLOT PROYEK BARU — GANTI tag, title, img (taruh file di images/project-5.jpg), body, dan tags
+  project5:{tag:"Kategori — Tahun", title:"Judul Proyek Baru", img:"project-5.jpg",
+    body:"Ganti dengan deskripsi lengkap proyek ini.",
+    tags:["Tag1","Tag2"]},
+  // SLOT PROYEK BARU — GANTI tag, title, img (taruh file di images/project-6.jpg), body, dan tags
+  project6:{tag:"Kategori — Tahun", title:"Judul Proyek Baru", img:"project-6.jpg",
+    body:"Ganti dengan deskripsi lengkap proyek ini.",
+    tags:["Tag1","Tag2"]}
 };
 document.querySelectorAll('[data-project]').forEach(item=>{
   item.addEventListener('click',()=>{
@@ -145,11 +173,141 @@ window.addEventListener('scroll',()=>{ header.classList.toggle('scrolled', windo
 const overlay=document.getElementById('navOverlay');
 const openBtn=document.getElementById('menuOpen');
 const closeBtn=document.getElementById('menuClose');
-function openMenu(){ overlay.classList.add('open'); document.body.style.overflow='hidden'; }
-function closeMenu(){ overlay.classList.remove('open'); document.body.style.overflow=''; }
-openBtn.addEventListener('click',openMenu);
+function openMenu(){ overlay.classList.add('open'); openBtn.classList.add('active'); document.body.style.overflow='hidden'; }
+function closeMenu(){ overlay.classList.remove('open'); openBtn.classList.remove('active'); document.body.style.overflow=''; }
+openBtn.addEventListener('click',()=>{ overlay.classList.contains('open') ? closeMenu() : openMenu(); });
 closeBtn.addEventListener('click',closeMenu);
 overlay.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',closeMenu));
+
+// =====================================
+// ACTIVE NAV LINK WHILE SCROLLING
+// =====================================
+const navLinks=[...overlay.querySelectorAll('nav a')];
+const trackedSections=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const navObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id='#'+entry.target.id;
+      navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')===id));
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+trackedSections.forEach(sec=>navObserver.observe(sec));
+
+// =====================================
+// SCROLL PROGRESS BAR
+// =====================================
+const scrollProgress=document.getElementById('scrollProgress');
+function updateScrollProgress(){
+  const scrollTop=window.scrollY;
+  const docHeight=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=docHeight>0 ? (scrollTop/docHeight)*100 : 0;
+  if(scrollProgress) scrollProgress.style.width=pct+'%';
+}
+window.addEventListener('scroll',updateScrollProgress,{passive:true});
+updateScrollProgress();
+
+// =====================================
+// BACK TO TOP
+// =====================================
+const backToTop=document.getElementById('backToTop');
+if(backToTop){
+  window.addEventListener('scroll',()=>{ backToTop.classList.toggle('show', window.scrollY>500); },{passive:true});
+  backToTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+// =====================================
+// ANIMATED COUNTERS (About stats)
+// =====================================
+const statEls=document.querySelectorAll('.stat-animate');
+function animateCount(el){
+  const target=parseInt(el.dataset.count,10)||0;
+  const duration=1100; const start=performance.now();
+  function tick(now){
+    const p=Math.min((now-start)/duration,1);
+    const eased=1-Math.pow(1-p,3);
+    el.textContent=Math.round(eased*target);
+    if(p<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const statObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){ animateCount(entry.target); statObserver.unobserve(entry.target); }
+  });
+},{threshold:0.6});
+statEls.forEach(el=>statObserver.observe(el));
+
+// =====================================
+// HERO LOAD-IN (satu momen animasi pas halaman dibuka)
+// =====================================
+requestAnimationFrame(()=>{ document.getElementById('hero').classList.add('loaded'); });
+
+// =====================================
+// "ALIVE" EXTRAS — cursor glow, tilt 3D, cycling word
+// Semua dimatikan otomatis kalau user pakai prefers-reduced-motion
+// atau device-nya touch (gak ada mouse beneran)
+// =====================================
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hasFinePointer=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+// --- cursor glow mengikuti mouse ---
+const cursorGlow=document.getElementById('cursorGlow');
+if(cursorGlow && hasFinePointer && !reduceMotion){
+  window.addEventListener('mousemove',e=>{
+    cursorGlow.style.transform=`translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%,-50%)`;
+    cursorGlow.classList.add('show');
+  },{passive:true});
+  window.addEventListener('mouseleave',()=>cursorGlow.classList.remove('show'));
+}
+
+// --- tilt 3D di carousel card, project item, testimonial card ---
+if(hasFinePointer && !reduceMotion){
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width; const py=(e.clientY-r.top)/r.height;
+      const rx=(0.5-py)*10; const ry=(px-0.5)*10;
+      card.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+      card.style.transition='transform .08s linear';
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform=''; card.style.transition='';
+    });
+  });
+}
+
+// --- trophy 3D: ikut muter sesuai posisi kursor di area Achievements ---
+const achTrophyStageEl=document.getElementById('achTrophyStage');
+const achRbMain=document.querySelector('.ach-rb-main');
+if(achTrophyStageEl && achRbMain && hasFinePointer && !reduceMotion){
+  achRbMain.addEventListener('mousemove',e=>{
+    const r=achRbMain.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width; const py=(e.clientY-r.top)/r.height;
+    const ry=(px-0.5)*34; const rx=(0.5-py)*22;
+    achTrophyStageEl.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+  });
+  achRbMain.addEventListener('mouseleave',()=>{
+    achTrophyStageEl.style.transform='perspective(900px) rotateX(0deg) rotateY(0deg)';
+  });
+}
+
+// --- cycling word di subtitle hero ---
+const cycleEl=document.getElementById('cycleWord');
+if(cycleEl){
+  const cycleWords=['networking','pengembangan web','hardware komputer','creative editing'];
+  let cycleIndex=0;
+  if(!reduceMotion){
+    setInterval(()=>{
+      cycleEl.classList.add('swap');
+      setTimeout(()=>{
+        cycleIndex=(cycleIndex+1)%cycleWords.length;
+        cycleEl.textContent=cycleWords[cycleIndex];
+        cycleEl.classList.remove('swap');
+      },250);
+    },2600);
+  }
+}
 
 // =====================================
 // CAROUSEL
